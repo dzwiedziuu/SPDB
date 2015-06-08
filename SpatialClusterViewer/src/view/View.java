@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -12,12 +13,14 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.ModelPoint;
+import model.ModelObject;
+import view.drawer.ModelObjectDrawer;
+import view.drawer.ModelObjectDrawerFactory;
 
 public class View extends JFrame
 {
 	private static final long serialVersionUID = 5880489977738002655L;
-	private List<ModelPoint> list;
+	private List<ModelObjectDrawer> list = new LinkedList<ModelObjectDrawer>();
 	private Map<Integer, Color> clusterMap = new LinkedHashMap<Integer, Color>();
 	private Random random = new Random();
 
@@ -27,9 +30,10 @@ public class View extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public void showList(List<ModelPoint> list)
+	public void showList(List<? extends ModelObject> list)
 	{
-		this.list = list;
+		for (ModelObject mo : list)
+			this.list.add(ModelObjectDrawerFactory.create(mo));
 		JPanel jpanel = new MyJPanel();
 		add(jpanel);
 		setVisible(true);
@@ -38,8 +42,6 @@ public class View extends JFrame
 	public class MyJPanel extends JPanel implements MouseListener
 	{
 		private static final long serialVersionUID = -751876062558106970L;
-		private static final int DIAMETER = 5;
-		private static final int REGION_DIAMETER = 80;
 
 		public MyJPanel()
 		{
@@ -54,15 +56,10 @@ public class View extends JFrame
 				g.drawLine(i * 100, 0, i * 100, 500);
 			for (int i = 0; i < 5; i++)
 				g.drawLine(0, i * 100, 500, i * 100);
-			for (ModelPoint mp : list)
+			for (ModelObjectDrawer mp : list)
 			{
-				g.setColor(findColor(mp.getClusterId()));
-				g.fillOval(mp.getX() - DIAMETER / 2, mp.getY() - DIAMETER / 2, DIAMETER, DIAMETER);
-				if (mp.getClusterId() != null)
-				{
-					g.setColor(Color.BLACK);
-					g.drawOval(mp.getX() - REGION_DIAMETER / 2, mp.getY() - REGION_DIAMETER / 2, REGION_DIAMETER, REGION_DIAMETER);
-				}
+				g.setColor(findColor(mp.getModelObject().getClusterId()));
+				mp.drawObject(g);
 			}
 		}
 
@@ -80,25 +77,13 @@ public class View extends JFrame
 		@Override
 		public void mouseClicked(MouseEvent arg0)
 		{
-			ModelPoint mp = findClosest(arg0.getX(), arg0.getY());
-			System.out.println(arg0.getX() + "x" + arg0.getY() + ", probably: " + mp.getId() + "[" + mp.getX() + "x" + mp.getY() + ":" + mp.getClusterId()
-					+ "]");
+			ModelObject mp = findClosest(arg0.getX(), arg0.getY());
+			System.out.println(arg0.getX() + "x" + arg0.getY() + ", probably: " + (mp == null ? "unknown" : mp.toString()));
 		}
 
-		private ModelPoint findClosest(int x, int y)
+		private ModelObject findClosest(int x, int y)
 		{
-			double minDist = Double.MAX_VALUE;
-			ModelPoint minMp = null;
-			for (ModelPoint mp : list)
-			{
-				double curDist = (x - mp.getX()) * (x - mp.getX()) + (y - mp.getY()) * (y - mp.getY());
-				if (curDist < minDist)
-				{
-					minMp = mp;
-					minDist = curDist;
-				}
-			}
-			return minMp;
+			return list.get(0).findClosest(list, x, y);
 		}
 
 		@Override

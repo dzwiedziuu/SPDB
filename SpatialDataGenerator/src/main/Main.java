@@ -17,6 +17,8 @@ public class Main
 	private static final String N = "n";
 	private static final String OUTPUT_FILE = "of";
 
+	private static final PointGenerator generator = new BeautyPolygonGenerator();
+
 	public static void main(String[] args) throws IOException
 	{
 		Options options = createOptions();
@@ -29,7 +31,7 @@ public class Main
 			int xmax = Integer.parseInt(commandLine.getOptionValue(X_MAX));
 			int ymax = Integer.parseInt(commandLine.getOptionValue(Y_MAX));
 			String oFile = commandLine.getOptionValue(OUTPUT_FILE);
-			new Generator().generate(oFile, n, xmax, ymax);
+			generator.generate(oFile, n, xmax, ymax);
 		} catch (ParseException e)
 		{
 			System.out.println(e.getMessage());

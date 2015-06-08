@@ -11,12 +11,18 @@ import view.View;
 
 public class Main
 {
+	private static final PointGenerator generator = new BeautyPolygonGenerator();
 	private static ModelObjectReader modelObjectReader = new ModelPolygonReader();
+
+	private static final String fileName = "test.spa";
+	private static final Integer vNumber = 100;
+	private static final Integer xMax = 500;
+	private static final Integer yMax = 500;
 
 	public static void main(String[] args) throws IOException
 	{
-		List<? extends ModelObject> list = modelObjectReader.read(new File("test.spa"));
+		generator.generate(fileName, vNumber, xMax, yMax);
+		List<? extends ModelObject> list = modelObjectReader.read(new File(fileName));
 		new View().showList(list);
 	}
-
 }
