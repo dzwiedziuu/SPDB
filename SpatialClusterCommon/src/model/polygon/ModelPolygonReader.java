@@ -22,9 +22,17 @@ public class ModelPolygonReader implements ModelObjectReader
 	List<Edge> edgeList = new LinkedList<Edge>();
 	List<Polygon> polygonList = new LinkedList<Polygon>();
 
+	protected void reset()
+	{
+		vertices.clear();
+		edgeList.clear();
+		polygonList.clear();
+	}
+
 	@Override
 	public List<? extends ModelObject> read(File file) throws IOException
 	{
+		reset();
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String line = null;
 		boolean blankLineRead = false;
@@ -53,6 +61,7 @@ public class ModelPolygonReader implements ModelObjectReader
 				polygonList.add(polygon);
 			}
 		}
+		br.close();
 		return polygonList;
 	}
 

@@ -21,8 +21,16 @@ public class RectangleReader extends ModelPolygonReader
 	List<Rectangle> rectangles = new LinkedList<Rectangle>();
 
 	@Override
+	protected void reset()
+	{
+		super.reset();
+		rectangles.clear();
+	}
+
+	@Override
 	public List<? extends ModelObject> read(File file) throws IOException
 	{
+		reset();
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String line = null;
 		boolean blankLineRead = false;

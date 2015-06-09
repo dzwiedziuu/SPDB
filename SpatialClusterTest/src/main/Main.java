@@ -1,35 +1,94 @@
 package main;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import model.ModelObject;
-import model.ModelObjectReader;
-import rectangle.RectangleReader;
-import view.View;
-import algorithm.AbstractGDBSCANAlgorithm;
-import algorithm.RectangleAlgorithm;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+import view.ChartView;
 
 public class Main
 {
-	private static final String fileName = "test.spa";
-	private static final Integer vNumber = 100;
-	private static final Integer xMax = 500;
-	private static final Integer yMax = 500;
-	private static final Integer densePredicateValue = 30000;
+	private enum Mode
+	{
+		PERFORMANCE, ONCE_VISUAL;
+	}
 
-	private static final PointGenerator generator = new RectangleGenerator();
-	private static ModelObjectReader modelObjectReader = new RectangleReader();
-	private static AbstractGDBSCANAlgorithm algrithm = new RectangleAlgorithm(densePredicateValue);
+	private static final Mode mode = Mode.PERFORMANCE;
 
 	public static void main(String[] args) throws IOException
 	{
-		if (generator != null)
-			generator.generate(fileName, vNumber, xMax, yMax);
-		List<? extends ModelObject> list = modelObjectReader.read(new File(fileName));
-		if (algrithm != null)
-			algrithm.loadList(list).setClusters();
-		new View().showList(list);
+		if (Mode.ONCE_VISUAL.equals(mode))
+			new RunTest().runOnce(new Params(40));
+		if (Mode.PERFORMANCE.equals(mode))
+		{
+			List<GroupResult> result = new RunTest().run(new Params());
+			printChart(result);
+		}
+	}
+
+	private static void printChart(List<GroupResult> result)
+	{
+		ChartView v = new ChartView(3);
+		v.add(new ChartCreator(result)
+		{
+			@Override
+			void extractValue(XYSeries series1, GroupResult gr)
+			{
+				series1.add(gr.vertexNum, gr.getAvgMiliSeconds());
+			}
+		}.createChart("sredni czas [ms]", "liczba obiektow", "zaleznosc czasu od liczby obiektow"));
+		v.add(new ChartCreator(result)
+		{
+			@Override
+			void extractValue(XYSeries series1, GroupResult gr)
+			{
+				series1.add(gr.vertexNum, gr.totalClusteredNumber / gr.size);
+			}
+		}.createChart("srednia liczba sklastrowanych obiektow", "liczba obiektow", "zaleznosc liczby sklastrowanych obiektow od liczby obiektow"));
+		v.add(new ChartCreator(result)
+		{
+			@Override
+			void extractValue(XYSeries series1, GroupResult gr)
+			{
+				series1.add(gr.vertexNum, gr.totalClusterCnt / gr.size);
+			}
+		}.createChart("srednia liczba klastrow", "liczba obiektow", "zaleznosc liczby klastrow od liczby obiektow"));
+		v.setVisible(true);
+	}
+
+	private static abstract class ChartCreator
+	{
+		List<GroupResult> result;
+
+		ChartCreator(List<GroupResult> result)
+		{
+			this.result = result;
+		}
+
+		ChartPanel createChart(String ylabel, String xlabel, String titleLabel)
+		{
+			XYSeriesCollection xySeriesCollection = new XYSeriesCollection();
+			XYSeries colors = new XYSeries(ylabel);
+			xySeriesCollection.addSeries(colors);
+			for (GroupResult gr : result)
+			{
+				extractValue(colors, gr);
+			}
+
+			JFreeChart objChart = ChartFactory.createXYLineChart(titleLabel, xlabel, ylabel, xySeriesCollection, PlotOrientation.VERTICAL, true, // include
+					// legend?
+					true, // include tooltips?
+					true // include URLs?
+					);
+			return new ChartPanel(objChart);
+		}
+
+		abstract void extractValue(XYSeries series1, GroupResult gr);
 	}
 }

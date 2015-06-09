@@ -146,4 +146,10 @@ public abstract class AbstractGDBSCANAlgorithm
 	 * predykat sasiedztwa, definiowany w klasach pochodnych
 	 */
 	protected abstract NeighbourhoodPredicate getNeighbourhoodPredicate();
+
+	public Object getResult()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
