@@ -1,5 +1,8 @@
 package model;
 
+/*
+ * interfejs obiektu modelu dziedziny
+ */
 public interface ModelObject
 {
 	public int getId();

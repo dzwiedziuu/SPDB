@@ -10,6 +10,9 @@ import model.ModelObject;
 import model.polygon.Edge;
 import model.polygon.Vertex;
 
+/*
+ * klasa reprezentujaca prostokat
+ */
 public class Rectangle implements ModelObject, AbstractPolygon
 {
 	public List<Vertex> vertices = new LinkedList<Vertex>();
@@ -33,21 +36,33 @@ public class Rectangle implements ModelObject, AbstractPolygon
 		this.vertices = vertices;
 	}
 
+	/*
+	 * znajdz wartosc x lewego gornego rogu
+	 */
 	public int getMinX()
 	{
 		return Math.min(vertices.get(0).x, vertices.get(2).x);
 	}
 
+	/*
+	 * znajdz wartosc y lewego gornego rogu
+	 */
 	public int getMinY()
 	{
 		return Math.min(vertices.get(0).y, vertices.get(2).y);
 	}
 
+	/*
+	 * znajdz dlugosc prostokata
+	 */
 	public int getWidth()
 	{
 		return Math.abs(vertices.get(2).x - vertices.get(0).x);
 	}
 
+	/*
+	 * znajdz szerokosc prostokata
+	 */
 	public int getHeight()
 	{
 		return Math.abs(vertices.get(2).y - vertices.get(0).y);
@@ -78,6 +93,9 @@ public class Rectangle implements ModelObject, AbstractPolygon
 		return new java.awt.Rectangle(minX, minY, getWidth(), getHeight());
 	}
 
+	/*
+	 * czy punkt jest w srodku prostokata
+	 */
 	public boolean isInside(Vertex v)
 	{
 		return getAWTRectangle().contains(v.x, v.y);
@@ -90,6 +108,9 @@ public class Rectangle implements ModelObject, AbstractPolygon
 				+ getNeighbourRectanglesIDs() + ", e=" + Arrays.toString(edges.toArray());
 	}
 
+	/*
+	 * zwraca ID prostokatow, z ktorymi sasiaduje ten prostokat
+	 */
 	public String getNeighbourRectanglesIDs()
 	{
 		StringBuffer sb = new StringBuffer("[");
@@ -102,6 +123,9 @@ public class Rectangle implements ModelObject, AbstractPolygon
 
 	private static Random random = new Random();
 
+	/*
+	 * znajdz punkt, ktory nie jest przy krawedzi
+	 */
 	public Vertex getLegalPoint(Vertex splitVertex)
 	{
 		while (!isVertexLegal(splitVertex))
@@ -113,6 +137,9 @@ public class Rectangle implements ModelObject, AbstractPolygon
 		return splitVertex;
 	}
 
+	/*
+	 * warunek konieczny, zeby dokonac podzialu prostokata w procesie generacji
+	 */
 	public boolean isBigEnoughRect()
 	{
 		return getWidth() >= minDist * 2 && getHeight() >= minDist * 2;
@@ -120,6 +147,9 @@ public class Rectangle implements ModelObject, AbstractPolygon
 
 	private static final int minDist = 5;
 
+	/*
+	 * czy punkt nie jest za blisko krawedzi
+	 */
 	private boolean isVertexLegal(Vertex vertex)
 	{
 		if (Math.abs(vertices.get(0).x - vertex.x) < minDist)
@@ -133,12 +163,18 @@ public class Rectangle implements ModelObject, AbstractPolygon
 		return true;
 	}
 
+	/*
+	 * pole powierzchni
+	 */
 	@Override
 	public double getArea()
 	{
 		return getWidth() * getHeight();
 	}
 
+	/*
+	 * czy prostokat jest sasiadem
+	 */
 	@Override
 	public boolean isNeighbour(AbstractPolygon otherPolygon)
 	{

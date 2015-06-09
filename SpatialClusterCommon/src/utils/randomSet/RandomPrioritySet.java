@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/*
+ * klasa pozwalajaca wybrac w losowy sposob element ze zbioru, proporcjonalnie do wspolczynnika prawdopodobienstwa
+ */
 public class RandomPrioritySet<T>
 {
 	private static Random rand = new Random();

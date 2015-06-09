@@ -6,6 +6,9 @@ import model.AbstractPolygon;
 import predicate.DensePredicate;
 import predicate.NeighbourhoodPredicate;
 
+/*
+ * implementacja algorytmu GDBSCAN dla trójk¹tów
+ */
 public class PolygonAlgorithm extends AbstractGDBSCANAlgorithm
 {
 	public PolygonAlgorithm(Integer densepredicatevalue)

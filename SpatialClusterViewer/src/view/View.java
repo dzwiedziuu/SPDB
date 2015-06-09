@@ -17,6 +17,9 @@ import model.ModelObject;
 import view.drawer.ModelObjectDrawer;
 import view.drawer.ModelObjectDrawerFactory;
 
+/*
+ * klasa odpowiadajaca za prezentacje klasteryzacji
+ */
 public class View extends JFrame
 {
 	private static final long serialVersionUID = 5880489977738002655L;

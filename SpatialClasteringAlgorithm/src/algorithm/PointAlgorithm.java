@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import predicate.DensePredicate;
 import predicate.NeighbourhoodPredicate;
 
+/*
+ * implementacja algorytmu GDBSCAN dla punktów
+ */
 public class PointAlgorithm extends AbstractGDBSCANAlgorithm
 {
 	public PointAlgorithm(Integer densepredicatevalue)

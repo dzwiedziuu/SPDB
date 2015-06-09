@@ -4,6 +4,9 @@ import java.util.List;
 
 import model.polygon.Edge;
 
+/*
+ * abstrakcyjna klasa uzywana w problemach z figurami powierzchniowymi
+ */
 public interface AbstractPolygon
 {
 	public double getArea();

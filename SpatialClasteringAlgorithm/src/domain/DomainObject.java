@@ -1,6 +1,11 @@
 package domain;
 
-public interface DomainObject
+import model.ModelObject;
+
+/*
+ * interfejs u¿ywany w algorytmie GDBSCAN
+ */
+public interface DomainObject extends ModelObject
 {
 	public enum Status
 	{
@@ -10,10 +15,4 @@ public interface DomainObject
 	public Status getStatus();
 
 	public void setStatus(Status status);
-
-	public void setClusterId(Integer cluster);
-
-	public Integer getClusterId();
-
-	public int getId();
 }

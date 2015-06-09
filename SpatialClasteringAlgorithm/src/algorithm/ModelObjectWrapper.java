@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import domain.DomainObject;
 
+/*
+ * klasa opakowuj¹ca obiekt z modelu dziedziny
+ */
 public class ModelObjectWrapper implements ModelObject, DomainObject
 {
 	private Logger logger = LoggerFactory.getLogger(ModelObjectWrapper.class);
@@ -32,18 +35,6 @@ public class ModelObjectWrapper implements ModelObject, DomainObject
 	{
 		return modelPoint.getClusterId();
 	}
-
-	// @Override
-	// public int getX()
-	// {
-	// return modelPoint.getX();
-	// }
-	//
-	// @Override
-	// public int getY()
-	// {
-	// return modelPoint.getY();
-	// }
 
 	public ModelObject getWrappedInstance()
 	{

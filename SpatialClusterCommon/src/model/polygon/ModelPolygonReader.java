@@ -13,6 +13,9 @@ import java.util.Set;
 import model.ModelObject;
 import model.ModelObjectReader;
 
+/*
+ * klasa wczytujaca model trójkatow z pliku
+ */
 public class ModelPolygonReader implements ModelObjectReader
 {
 	List<Vertex> vertices = new LinkedList<Vertex>();
@@ -65,7 +68,7 @@ public class ModelPolygonReader implements ModelObjectReader
 	protected Vertex findOrRegisterVertex(Vertex vertex)
 	{
 		for (Vertex e : vertices)
-			if (e.isSame(vertex))
+			if (e.equals(vertex))
 				return e;
 		vertices.add(vertex);
 		return vertex;

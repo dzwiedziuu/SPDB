@@ -5,6 +5,9 @@ import java.util.List;
 
 import rectangle.Rectangle;
 
+/*
+ * klasa reprezentujaca krawedz
+ */
 public class Edge
 {
 	public List<Vertex> vertices;
@@ -22,12 +25,9 @@ public class Edge
 		this(vertices, nextEdgeId++);
 	}
 
-	public Edge(List<Vertex> vertices, String comment)
-	{
-		this(vertices, nextEdgeId++);
-		System.out.println("created edge " + edgeId + " comm=" + comment);
-	}
-
+	/*
+	 * znajdz rzut wierzcholka na prosta zawierajaca ten odcinek
+	 */
 	public Vertex takeOrthogonalProjection(Vertex pointToChange)
 	{
 		double a = ((double) this.getSecondEnd().y - this.getFirstEnd().y) / (this.getSecondEnd().x - this.getFirstEnd().x);
@@ -64,6 +64,9 @@ public class Edge
 		return Math.sqrt(getFirstEnd().getDistanceNotSquaredFrom(getSecondEnd()));
 	}
 
+	/*
+	 * czy wierzcholki sa tak naprawde wierzcholkami tej krawedzi
+	 */
 	public boolean isConnectingEdge(List<Vertex> vertices)
 	{
 		for (Vertex v : vertices)
@@ -72,6 +75,9 @@ public class Edge
 		return true;
 	}
 
+	/*
+	 * czy wierzcholek jest jednym z koncow krawedzi
+	 */
 	public boolean containsVertex(Vertex v)
 	{
 		for (Vertex ver : this.vertices)
@@ -80,6 +86,9 @@ public class Edge
 		return false;
 	}
 
+	/*
+	 * znajdz drugi koniec krawedzi
+	 */
 	public Vertex getOtherVertex(Vertex v)
 	{
 		if (getFirstEnd().equals(v))
@@ -87,6 +96,9 @@ public class Edge
 		return getFirstEnd();
 	}
 
+	/*
+	 * znajdz punkt podzialu odcinka (uzywany przy generowaniu modelu trojkatow)
+	 */
 	public Vertex getSplitPoint(Vertex vertex)
 	{
 		// int x = (vertices.get(0).x + vertices.get(1).x) / 2;
@@ -102,6 +114,9 @@ public class Edge
 		return "edgeId=" + edgeId;
 	}
 
+	/*
+	 * znajdz ID prostokata, z ktorym prostokat w argumencie dzieli ta krawedz
+	 */
 	public Integer getOtherRectangleID(Rectangle r)
 	{
 		for (Rectangle rr : rectangles)
@@ -110,6 +125,9 @@ public class Edge
 		return null;
 	}
 
+	/*
+	 * znajdz wspolczynnik a prostej zawierajacej ten odcinek
+	 */
 	public Double getA()
 	{
 		if (getFirstEnd().x == getSecondEnd().x)
@@ -119,6 +137,9 @@ public class Edge
 		return ((double) getFirstEnd().y - getSecondEnd().y) / (getFirstEnd().x - getSecondEnd().x);
 	}
 
+	/*
+	 * znajdz wspolczynnik b prostej zawierajacej ten odcinek
+	 */
 	public Double getB()
 	{
 		Double a = getA();
@@ -127,6 +148,9 @@ public class Edge
 		return getFirstEnd().y - a * getFirstEnd().x;
 	}
 
+	/*
+	 * czy ten odcinek zawiera odcinek w argumencie
+	 */
 	public boolean contains(Edge e)
 	{
 		if (!this.isOnSameLine(e))
@@ -141,11 +165,17 @@ public class Edge
 		return true;
 	}
 
+	/*
+	 * czy ten odcinek i odcinek w argumencie znajduja sie na tej samej prostej
+	 */
 	public boolean isOnSameLine(Edge e)
 	{
 		return this.getA().equals(e.getA()) && this.getB().equals(e.getB());
 	}
 
+	/*
+	 * czy prosta w argumencie ma wspolny wierzcholek z ta prosta
+	 */
 	public boolean touch(Edge e)
 	{
 		if (this.containsVertex(e.getFirstEnd()) || this.containsVertex(e.getSecondEnd()))
@@ -153,6 +183,9 @@ public class Edge
 		return false;
 	}
 
+	/*
+	 * zwraca wierzcholek, ktory znajduje sie blizej punktu
+	 */
 	public Vertex getClosestVertex(Vertex startingVertex)
 	{
 		double distFirst = getFirstEnd().getDistanceNotSquaredFrom(startingVertex);

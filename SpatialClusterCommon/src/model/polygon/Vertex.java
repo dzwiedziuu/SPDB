@@ -2,6 +2,9 @@ package model.polygon;
 
 import java.util.Random;
 
+/*
+ * klasa reprezentujaca punkt/wierzcholek
+ */
 public class Vertex
 {
 	public int x, y;
@@ -14,18 +17,17 @@ public class Vertex
 		this.y = y;
 	}
 
-	public boolean isSame(Vertex vertex)
-	{
-		if (this.x == vertex.x && this.y == vertex.y)
-			return true;
-		return false;
-	}
-
+	/*
+	 * odleglosc od punktu (niespierwiastkowana)
+	 */
 	public double getDistanceNotSquaredFrom(Vertex v)
 	{
 		return (this.x - v.x) * (this.x - v.x) + (this.y - v.y) * (this.y - v.y);
 	}
 
+	/*
+	 * znajdz losowy punkt z prostokata (0,0) - (xmax, ymax)
+	 */
 	public static Vertex generateRandom(int xmax, int ymax)
 	{
 		return new Vertex(random.nextInt(xmax), random.nextInt(ymax));

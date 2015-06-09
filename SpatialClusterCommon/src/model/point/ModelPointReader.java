@@ -10,6 +10,9 @@ import java.util.List;
 import model.ModelObject;
 import model.ModelObjectReader;
 
+/*
+ * klasa wczytujaca punkty z pliku
+ */
 public class ModelPointReader implements ModelObjectReader
 {
 	public List<ModelObject> read(File file) throws IOException

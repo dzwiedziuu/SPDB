@@ -2,6 +2,9 @@ package model.point;
 
 import model.ModelObject;
 
+/*
+ * klasa reprezentuj¹ca punkt
+ */
 public class ModelPoint implements ModelObject
 {
 	private int id, x, y;

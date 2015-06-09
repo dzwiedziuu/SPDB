@@ -13,6 +13,9 @@ import model.polygon.Edge;
 import model.polygon.ModelPolygonReader;
 import model.polygon.Vertex;
 
+/*
+ * klasa wczytujaca model prostokatow z pliku
+ */
 public class RectangleReader extends ModelPolygonReader
 {
 	List<Rectangle> rectangles = new LinkedList<Rectangle>();
