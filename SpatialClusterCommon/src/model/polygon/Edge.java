@@ -119,9 +119,18 @@ public class Edge
 	 */
 	public Integer getOtherRectangleID(Rectangle r)
 	{
+		Rectangle other = getOtherRectangle(r);
+		return other == null ? null : other.getId();
+	}
+
+	/*
+	 * znajdz prostokat, z ktorym prostokat w argumencie dzieli ta krawedz
+	 */
+	public Rectangle getOtherRectangle(Rectangle r)
+	{
 		for (Rectangle rr : rectangles)
 			if (r.getId() != rr.getId())
-				return rr.getId();
+				return rr;
 		return null;
 	}
 

@@ -1,8 +1,12 @@
 package algorithm;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import model.AbstractPolygon;
+import model.polygon.Edge;
+import model.polygon.Polygon;
 import predicate.DensePredicate;
 import predicate.NeighbourhoodPredicate;
 
@@ -47,4 +51,14 @@ public class PolygonAlgorithm extends AbstractGDBSCANAlgorithm
 		};
 	}
 
+	@Override
+	protected List<ModelObjectWrapper> getNeighbours(ModelObjectWrapper point, Map<Integer, ModelObjectWrapper> map2)
+	{
+		List<ModelObjectWrapper> result = new LinkedList<ModelObjectWrapper>();
+		Polygon polygon = (Polygon) point.getWrappedInstance();
+		for (Edge e : polygon.edges)
+			for (Polygon p : e.polygons)
+				result.add(new ModelObjectWrapper(p));
+		return result;
+	}
 }

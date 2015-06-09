@@ -1,6 +1,8 @@
 package algorithm;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import model.point.ModelPoint;
 
@@ -53,5 +55,15 @@ public class PointAlgorithm extends AbstractGDBSCANAlgorithm
 				return result;
 			}
 		};
+	}
+
+	protected List<ModelObjectWrapper> getNeighbours(ModelObjectWrapper point, Map<Integer, ModelObjectWrapper> map2)
+	{
+		List<ModelObjectWrapper> result = new LinkedList<ModelObjectWrapper>();
+		for (ModelObjectWrapper potentialNeighbour : map2.values())
+			if (point.getId() != potentialNeighbour.getId() && getNeighbourhoodPredicate().isNeighbour(point, potentialNeighbour))
+				result.add(potentialNeighbour);
+		result.add(point);
+		return result;
 	}
 }

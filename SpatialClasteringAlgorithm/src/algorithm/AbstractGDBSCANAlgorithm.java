@@ -1,7 +1,9 @@
 package algorithm;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import model.ModelObject;
@@ -20,7 +22,9 @@ public abstract class AbstractGDBSCANAlgorithm
 {
 	private Logger logger = LoggerFactory.getLogger(AbstractGDBSCANAlgorithm.class);
 
-	private List<ModelObjectWrapper> list;
+	// private List<ModelObjectWrapper> list;
+
+	private Map<Integer, ModelObjectWrapper> map;
 
 	/*
 	 * zmienna uzywana w klasach pochodnych jako wartosc do predykatu DENSE
@@ -37,7 +41,11 @@ public abstract class AbstractGDBSCANAlgorithm
 	 */
 	public AbstractGDBSCANAlgorithm loadList(List<? extends ModelObject> list)
 	{
-		this.list = createWrapperList(list);
+		// this.list = createWrapperList(list);
+		this.map = new HashMap<Integer, ModelObjectWrapper>();
+		for (ModelObject mp : list)
+			map.put(mp.getId(), new ModelObjectWrapper(mp));
+		// return map;
 		return this;
 	}
 
@@ -55,7 +63,7 @@ public abstract class AbstractGDBSCANAlgorithm
 	public void setClusters()
 	{
 		int nextClusterId = 1;
-		for (ModelObjectWrapper t : list)
+		for (ModelObjectWrapper t : map.values())
 		{
 			// je¿eli obiekt ju¿ by³ ma przypisany klaster - nie przetwarzaj go
 			if (t.getStatus().equals(Status.VISITED))
@@ -63,7 +71,7 @@ public abstract class AbstractGDBSCANAlgorithm
 			t.setStatus(Status.VISITED);
 			logger.trace("Przetwarzanie id: " + t.getId() + "[" + t.toString() + "]");
 			// znajdz s¹siadów danego obiektu
-			List<ModelObjectWrapper> neighbours = getNeighbours(t);
+			List<ModelObjectWrapper> neighbours = getNeighbours(t, map);
 			logger.trace("Sasiedzi " + t.getId() + ": " + neighbours.stream().map(tt -> "" + tt.getId()).collect(Collectors.joining(",")));
 			// sprawdz czy s¹siedzi spe³niaj¹ ¿¹dany warunek
 			if (!getDensePredicate().isDenseEnough(neighbours))
@@ -94,7 +102,7 @@ public abstract class AbstractGDBSCANAlgorithm
 				// znajdz sasiedztwo i sprawdz warunek gêstoœciowy, jezeli
 				// spelniony to przetwarzaj takze sasiadow w nastepnym poziomie
 				// rekurencji
-				List<ModelObjectWrapper> neighboursOfNeighbour = getNeighbours(neighbour);
+				List<ModelObjectWrapper> neighboursOfNeighbour = getNeighbours(neighbour, map);
 				if (getDensePredicate().isDenseEnough(neighboursOfNeighbour))
 					neighboursOfNeighbours.addAll(neighboursOfNeighbour);
 			}
@@ -127,15 +135,7 @@ public abstract class AbstractGDBSCANAlgorithm
 	 * znajdz liste sasiadow (zgodnie z predykatem sasiedztwa) dodajac punkt
 	 * przetwarzany
 	 */
-	private List<ModelObjectWrapper> getNeighbours(ModelObjectWrapper point)
-	{
-		List<ModelObjectWrapper> result = new LinkedList<ModelObjectWrapper>();
-		for (ModelObjectWrapper potentialNeighbour : list)
-			if (point.getId() != potentialNeighbour.getId() && getNeighbourhoodPredicate().isNeighbour(point, potentialNeighbour))
-				result.add(potentialNeighbour);
-		result.add(point);
-		return result;
-	}
+	protected abstract List<ModelObjectWrapper> getNeighbours(ModelObjectWrapper point, Map<Integer, ModelObjectWrapper> map2);
 
 	/*
 	 * predykat gestosci, definiowany w klasach pochodnych
