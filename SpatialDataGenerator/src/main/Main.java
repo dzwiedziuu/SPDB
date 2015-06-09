@@ -17,7 +17,7 @@ public class Main
 	private static final String N = "n";
 	private static final String OUTPUT_FILE = "of";
 
-	private static final PointGenerator generator = new BeautyPolygonGenerator();
+	private static final PointGenerator generator = new RectangleGenerator();
 
 	public static void main(String[] args) throws IOException
 	{

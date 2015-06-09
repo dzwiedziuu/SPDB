@@ -53,7 +53,7 @@ public class ModelPolygonReader implements ModelObjectReader
 		return polygonList;
 	}
 
-	private List<Vertex> getUniqueVertices(List<Edge> edges)
+	protected List<Vertex> getUniqueVertices(List<Edge> edges)
 	{
 		Set<Vertex> vertices = new LinkedHashSet<Vertex>();
 		for (Edge e : edges)
@@ -62,7 +62,7 @@ public class ModelPolygonReader implements ModelObjectReader
 		return Arrays.asList(vertices.toArray(vs));
 	}
 
-	private Vertex findOrRegisterVertex(Vertex vertex)
+	protected Vertex findOrRegisterVertex(Vertex vertex)
 	{
 		for (Vertex e : vertices)
 			if (e.isSame(vertex))
@@ -71,7 +71,7 @@ public class ModelPolygonReader implements ModelObjectReader
 		return vertex;
 	}
 
-	private Edge findEdge(int id)
+	protected Edge findEdge(int id)
 	{
 		for (Edge e : edgeList)
 			if (e.edgeId == id)
@@ -79,7 +79,7 @@ public class ModelPolygonReader implements ModelObjectReader
 		throw new RuntimeException("Not found edge: edgeId=" + id);
 	}
 
-	private Edge createNewEdge(List<Vertex> vertices, int id)
+	protected Edge createNewEdge(List<Vertex> vertices, int id)
 	{
 		for (Edge e : edgeList)
 			if (e.isConnectingEdge(vertices))

@@ -29,6 +29,7 @@ public class BeautyPolygonGenerator extends PolygonGenerator
 	@Override
 	protected Vertex generateFirstPoint(int xmax, int ymax)
 	{
-		return new Vertex(xmax / 2, ymax / 2);
+		// return new Vertex(xmax / 2, ymax / 2);
+		return super.generateFirstPoint(xmax, ymax);
 	}
 }

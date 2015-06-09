@@ -36,4 +36,17 @@ public class Vertex
 	{
 		return "[" + x + "x" + y + "]";
 	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof Vertex))
+			return false;
+		if (obj == null)
+			return false;
+		Vertex v = (Vertex) obj;
+		if (v.x == this.x && v.y == this.y)
+			return true;
+		return false;
+	}
 }

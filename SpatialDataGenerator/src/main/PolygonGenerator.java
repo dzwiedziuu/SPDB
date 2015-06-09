@@ -156,7 +156,7 @@ public class PolygonGenerator extends PointGenerator
 		return polygon;
 	}
 
-	private List<List<Vertex>> splitToNeighbourPairs(List<Vertex> vertices)
+	protected List<List<Vertex>> splitToNeighbourPairs(List<Vertex> vertices)
 	{
 		List<List<Vertex>> result = new LinkedList<List<Vertex>>();
 		for (int i = 0; i < vertices.size() - 1; i++)
@@ -165,7 +165,7 @@ public class PolygonGenerator extends PointGenerator
 		return result;
 	}
 
-	private Edge findOrCreateEdge(List<Vertex> vertices)
+	protected Edge findOrCreateEdge(List<Vertex> vertices)
 	{
 		for (Edge e : edges)
 			if (e.isConnectingEdge(vertices))

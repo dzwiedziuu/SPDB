@@ -28,6 +28,7 @@ public class View extends JFrame
 	{
 		setSize(1000, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		clusterMap.put(null, Color.LIGHT_GRAY);
 	}
 
 	public void showList(List<? extends ModelObject> list)

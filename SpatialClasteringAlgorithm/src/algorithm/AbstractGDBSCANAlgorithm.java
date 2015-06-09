@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import model.ModelObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,10 +19,25 @@ public abstract class AbstractGDBSCANAlgorithm
 
 	private List<ModelObjectWrapper> list;
 
-	public AbstractGDBSCANAlgorithm loadList(List<ModelObjectWrapper> list)
+	protected Integer densepredicatevalue;
+
+	public AbstractGDBSCANAlgorithm(Integer densepredicatevalue)
 	{
-		this.list = list;
+		this.densepredicatevalue = densepredicatevalue;
+	}
+
+	public AbstractGDBSCANAlgorithm loadList(List<? extends ModelObject> list)
+	{
+		this.list = createWrapperList(list);
 		return this;
+	}
+
+	private List<ModelObjectWrapper> createWrapperList(List<? extends ModelObject> list)
+	{
+		List<ModelObjectWrapper> result = new LinkedList<ModelObjectWrapper>();
+		for (ModelObject mp : list)
+			result.add(new ModelObjectWrapper(mp));
+		return result;
 	}
 
 	public void setClusters()
@@ -81,7 +98,7 @@ public abstract class AbstractGDBSCANAlgorithm
 		return result;
 	}
 
-	protected abstract DensePredicate<ModelObjectWrapper> getDensePredicate();
+	protected abstract DensePredicate getDensePredicate();
 
-	protected abstract NeighbourhoodPredicate<ModelObjectWrapper> getNeighbourhoodPredicate();
+	protected abstract NeighbourhoodPredicate getNeighbourhoodPredicate();
 }

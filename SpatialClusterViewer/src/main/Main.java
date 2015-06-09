@@ -6,12 +6,12 @@ import java.util.List;
 
 import model.ModelObject;
 import model.ModelObjectReader;
-import model.polygon.ModelPolygonReader;
+import rectangle.RectangleReader;
 import view.View;
 
 public class Main
 {
-	private static ModelObjectReader modelObjectReader = new ModelPolygonReader();
+	private static ModelObjectReader modelObjectReader = new RectangleReader();
 
 	public static void main(String[] args) throws IOException
 	{

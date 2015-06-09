@@ -1,8 +1,8 @@
 package predicate;
 
-import domain.DomainObject;
+import algorithm.ModelObjectWrapper;
 
-public interface NeighbourhoodPredicate<T extends DomainObject>
+public interface NeighbourhoodPredicate
 {
-	public boolean isNeighbour(T point1, T point2);
+	public boolean isNeighbour(ModelObjectWrapper modelObject1, ModelObjectWrapper modelObject2);
 }

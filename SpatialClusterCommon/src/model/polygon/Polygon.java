@@ -7,9 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import model.AbstractPolygon;
 import model.ModelObject;
 
-public class Polygon implements ModelObject
+public class Polygon implements ModelObject, AbstractPolygon
 {
 	public List<Vertex> vertices;
 
@@ -34,7 +35,12 @@ public class Polygon implements ModelObject
 
 	public boolean isInside(Vertex vertex)
 	{
-		java.awt.Polygon awtPolygon = getAWTPolygon();
+		return isInside(vertex, 0);
+	}
+
+	public boolean isInside(Vertex vertex, int padding)
+	{
+		java.awt.Polygon awtPolygon = getAWTPolygon(padding);
 		return awtPolygon.contains(vertex.x, vertex.y);
 	}
 
@@ -168,6 +174,21 @@ public class Polygon implements ModelObject
 	@Override
 	public String toString()
 	{
-		return "id=" + getId() + Arrays.toString(vertices.toArray());
+		return "id=" + getId() + ", clusterID=" + clusterId + Arrays.toString(vertices.toArray());
+	}
+
+	public boolean isNeighbour(AbstractPolygon otherPolygon)
+	{
+		for (Edge e : this.edges)
+			for (Edge eo : otherPolygon.getEdges())
+				if (e == eo)
+					return true;
+		return false;
+	}
+
+	@Override
+	public List<Edge> getEdges()
+	{
+		return edges;
 	}
 }

@@ -2,9 +2,9 @@ package predicate;
 
 import java.util.List;
 
-import domain.DomainObject;
+import algorithm.ModelObjectWrapper;
 
-public interface DensePredicate<T extends DomainObject>
+public interface DensePredicate
 {
-	public boolean isDenseEnough(List<T> list);
+	public boolean isDenseEnough(List<ModelObjectWrapper> list);
 }
