@@ -22,7 +22,7 @@ public class Params
 		this(20);
 	}
 
-	private static final int initialSize = 20;
+	private static final int initialSize = 10;
 
 	public Params(int n)
 	{
@@ -30,18 +30,18 @@ public class Params
 		this.ymax = 500;
 		this.n = n;
 		this.modelNumber = 10;
-		this.tries = 10;
+		this.tries = 20;
 	}
 
 	public boolean doNextTest()
 	{
-		return this.n < 80;
+		return this.n <= 100;
 	}
 
 	public Params nextTestParams()
 	{
 		Params params = copy();
-		params.n += 20;
+		params.n += 10;
 		return params;
 	}
 
